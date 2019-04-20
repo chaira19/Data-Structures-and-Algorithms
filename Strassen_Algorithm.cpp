@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cmath>
 #include<vector>
 using namespace std;
 
@@ -161,6 +162,43 @@ vector<vector<int>> Strassen(vector<vector<int>> A, vector<vector<int>> B, int n
 	return C;
 }
 
+// Normal Matrix multiplication
+vector<vector<int>> MProd(vector<vector<int>> A, vector<vector<int>> B)
+{
+	int n = A.size();
+	vector<vector<int>> C(n, vector<int>(n, 0));
+	
+	for(int i = 0;i<n;i++)
+	{
+		for(int j = 0;j<n;j++)
+		{
+			int x = 0;
+			for(int k = 0;k<n;k++)
+			{
+				x = x + A[i][k]*B[k][j];
+			}
+			C[i][j] = x;
+		}
+	}
+	
+	return C;
+}
+
+// function to generate random matrix of size n
+vector<vector<int>> randmat(int n)
+{
+	vector<vector<int>> v(n, vector<int>(n, 0));
+	
+	for(int i = 0;i<n;i++)
+	{
+		for(int j = 0;j<n;j++)
+		{
+			v[i][j] = rand();
+		}
+	}
+	
+	return v;
+}
 int main()
 {
 	int n;
@@ -172,21 +210,29 @@ int main()
 	vector<vector<int>> C(n, vector<int>(n, 0));
 	
 	cout<<"Matrix A\n";
+	A = randmat(n);
 	for(int i = 0;i<n;i++)
 	{
 		for(int j = 0;j<n;j++)
 		{
-			cin>>A[i][j];
+			//cin>>A[i][j];
+			cout<<A[i][j];
+			cout<<" ";
 		}
+		cout<<endl;
 	}
 	
 	cout<<"Matrix B\n";
+	B = randmat(n);
 	for(int i = 0;i<n;i++)
 	{
 		for(int j = 0;j<n;j++)
 		{
-			cin>>B[i][j];
+			//cin>>B[i][j];
+			cout<<B[i][j];
+			cout<<" ";
 		}
+		cout<<endl;
 	}
 	
 	C = Strassen(A, B, n);
