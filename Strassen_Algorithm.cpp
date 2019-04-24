@@ -1,7 +1,10 @@
 #include<iostream>
 #include<cmath>
 #include<vector>
+#include<ctime>
 using namespace std;
+
+//ToDo :: Make a graph of time complexity vs size for both the methods comparison
 
 // function to add two matrixes
 vector<vector<int>> add(vector<vector<int>> A, vector<vector<int>> B, int n)
@@ -205,6 +208,8 @@ int main()
 	cout<<"Size :";
 	cin>>n;
 	
+	clock_t time_normal, time_strassen;
+	
 	vector<vector<int>> A(n, vector<int>(n, 0));
 	vector<vector<int>> B(n, vector<int>(n, 0));
 	vector<vector<int>> C(n, vector<int>(n, 0));
@@ -235,7 +240,9 @@ int main()
 		cout<<endl;
 	}
 	
+	time_strassen = clock();
 	C = Strassen(A, B, n);
+	time_strassen = clock()-time_strassen;
 	
 	cout<<"Matrix C"<<endl;
 
@@ -247,7 +254,42 @@ int main()
 			cout<<" ";
 		}
 		cout<<endl;
+	}
+	
+	vector<vector<int>> D(n, vector<int>(n, 0));
+	
+	time_normal = clock();
+	D = MProd(A, B);
+	time_normal = clock() - time_normal;
+	
+	cout<<"Matrix D"<<endl;
+	
+	bool same = true;
+
+	for(int i = 0;i<n;i++)
+	{
+		for(int j = 0;j<n;j++)
+		{
+			cout<<D[i][j];
+			cout<<" ";
+			if(D[i][j] != C[i][j])
+			{
+				same = false;
+			}
+		}
+		cout<<endl;
 	}	
 	
+	if(same == true)
+	{
+		cout<<"Multiplicatoin is Right!"<<endl;
+	}
+	else
+	{
+		cout<<"Multiplication is Wrong!"<<endl;
+	}
+	
+	cout<<"Normal Multiplication time is "<<(float)time_normal/CLOCKS_PER_SEC<<endl;
+	cout<<"Strassen Multiplication time is "<<(float)time_strassen/CLOCKS_PER_SEC<<endl;
 	
 }
